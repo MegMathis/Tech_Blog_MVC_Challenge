@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  background-color: rgb(16, 158, 158);
+}
+
+.page-name {
+  background-color: rgb(102, 43, 156);
+}
