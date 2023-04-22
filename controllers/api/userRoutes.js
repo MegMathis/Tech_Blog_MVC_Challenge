@@ -1,21 +1,78 @@
 const router = require("express").Router();
-const { User } = require("../../models");
+const { User, Post } = require("../../models");
 
-router.post("/", async (req, res) => {
+// get all users
+router.get("/", async (req, res) => {
   try {
-    const userData = await User.create(req.body);
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-
-      res.status(200).json(userData);
+    const userData = await User.findAll({
+      attributes: { exclude: ["password"] },
     });
+    res.json(userData);
   } catch (err) {
-    res.status(400).json(err);
+    console.log(err);
+    res.status(500).json(err);
   }
 });
 
+// get the one user
+router.get("/", async (req, res) => {
+  try {
+    const userData = await User.findOne({
+      attributes: { exclude: ["password"] },
+      where: {
+        id: req.params.id,
+      },
+      include: [
+        {
+          // users posts
+          model: Post,
+          attributes: ["id", "title", "post_content"],
+        },
+        {
+          // post on comment model - to see which posts user commented on
+          model: Comment,
+          attributes: ["id", "comment_text"],
+          include: {
+            model: Post,
+            attributes: ["title"],
+          },
+        },
+      ],
+    });
+    if (!userData) {
+      res.status(404).json({
+        message: "User not found",
+      });
+      return;
+    }
+    res.json(userData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const userData = await User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body,
+    });
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.username = userData.username;
+      req.session.logged_in = true;
+
+      res.json(userData);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// logging in
 router.post("/login", async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
@@ -27,7 +84,7 @@ router.post("/login", async (req, res) => {
       return;
     }
 
-    const validPassword = await userData.checkPassword(req.body.password);
+    const validPassword = userData.checkPassword(req.body.password);
 
     if (!validPassword) {
       res
@@ -38,6 +95,7 @@ router.post("/login", async (req, res) => {
 
     req.session.save(() => {
       req.session.user_id = userData.id;
+      req.session.username = userData.username;
       req.session.logged_in = true;
 
       res.json({
@@ -46,15 +104,16 @@ router.post("/login", async (req, res) => {
       });
     });
   } catch (err) {
-    res.status(400).json(err);
+    console.log(err);
+    res.status(500).json(err);
   }
 });
 
-router.post("/logout", (req, res) => {
-  if (req.session.logged_in) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
+// logging out
+router.post("/logout", async (req, res) => {
+  if (req.session.loggedIn) {
+    await req.session.destroy();
+    res.status(204).end();
   } else {
     res.status(404).end();
   }

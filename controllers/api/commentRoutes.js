@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
+// get comments
 router.get("/", (req, res) => {
   Comment.findAll()
     .then((commentData) => res.json(commentData))
@@ -11,17 +12,18 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", withAuth, async (req, res) => {
-  try {
-    const newComment = await Comment.create({
-      ...req.body,
-      user_id: req.session.user_id,
+// create comment - async not working
+router.post("/", withAuth, (req, res) => {
+  Comment.create({
+    comment_text: req.body.comment_text,
+    user_id: req.session.user_id,
+    post_id: req.session.post_id,
+  })
+    .then((commentData) => res.json(commentData))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
     });
-
-    res.status(200).json(newComment);
-  } catch (err) {
-    res.status(400).json(err);
-  }
 });
 
 router.delete("/:id", withAuth, async (req, res) => {
