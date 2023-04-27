@@ -1,8 +1,9 @@
 const router = require("express").Router();
+const sequelize = require("../../config/connection");
 const { Post, User, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
-// get all the user posts
+// get all the posts
 router.get("/", (req, res) => {
   Post.findAll({
     // table associations
@@ -70,7 +71,7 @@ router.post("/", withAuth, (req, res) => {
     post_content: req.body.post_content,
     user_id: req.session.user_id,
   })
-    .then((dbPostData) => res.json(dbPostData))
+    .then((PostData) => res.json(PostData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);

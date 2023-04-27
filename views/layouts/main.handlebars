@@ -11,28 +11,24 @@
     <div class="wrapper">
         <header>
             <h1>
-                <a href="/">Home</a>
+                <a href="/">Tech Blog</a>
             </h1>
             <nav>
                 {{#if loggedIn}}
+                <a href="/">Home</a>
                 <a href="/dashboard">Dashboard</a>
-                <button id="logout" class="button-no-style logout">LogOut</button>
+                <button id="logout" class="button-no-style">Log Out</button>
                 {{else}}
-                <a href="/login">LogIn</a>
+                <a href="/login">Log In</a>
                 {{/if}}
             </nav>
         </header>
-        <div class="page-row">
-            <div class="page-name">
-                <h1>Tech Blog</h1>
-            </div>
-        </div>
     <main>
         {{{body}}}
     </main>
     </div>
     {{#if loggedIn}}
-    <script src="/public/js/logout.js"></script>
+    <script src="/js/logout.js"></script>
     {{/if}}
     
 </body>

@@ -14,3 +14,19 @@ body {
 .page-name {
   background-color: rgb(102, 43, 156);
 }
+
+header {
+  border-bottom: 5px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3%;
+}
+
+.login-form {
+  margin-top: 2em;
+}
+
+.signup-form {
+  margin-top: 5em;
+}

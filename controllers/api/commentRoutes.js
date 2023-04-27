@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const sequelize = require("../../config/connection");
 const { Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
@@ -26,7 +27,7 @@ router.post("/", withAuth, (req, res) => {
     });
 });
 
-// async won't work for me
+// delete one comment
 router.delete("/:id", withAuth, (req, res) => {
   Comment.destroy({
     where: {

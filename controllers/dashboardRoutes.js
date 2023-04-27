@@ -3,7 +3,7 @@ const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
-// get route for main - works with insomnia
+// get route for main
 router.get("/", withAuth, (req, res) => {
   console.log(req.session);
   Post.findAll({

@@ -14,35 +14,29 @@ const PORT = process.env.PORT || 3000;
 // set up handlebars
 const hbs = exphbs.create({ helpers });
 
-// const sess = {
-//   secret: "Super Duper Secret",
-//   cookie: {
-//     maxAge: 30000,
-//     httpOnly: true,
-//     secure: false,
-//     sameSite: "strict",
-//   },
-//   resave: false,
-//   saveUnitialized: true,
-//   store: new SequelizeStore({
-//     db: sequelize,
-//   }),
-// };
+const sess = {
+  secret: "Super Duper Secret",
+  cookie: {
+    maxAge: 30000,
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+  },
+  resave: false,
+  saveUnitialized: true,
+  store: new SequelizeStore({
+    db: sequelize,
+  }),
+};
 
-app.use(
-  session({
-    secret: process.env.Session_Secret,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(session(sess));
 
 // tell express.js which engine to use
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);

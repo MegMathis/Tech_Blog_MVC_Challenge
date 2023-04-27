@@ -1,9 +1,11 @@
 const router = require("express").Router();
+const sequelize = require("../../config/connection");
 const { User, Post, Comment } = require("../../models");
 
 // Get all the users
 router.get("/", (req, res) => {
   User.findAll({
+    // do not need password
     attributes: { exclude: ["password"] },
   })
     .then((userData) => res.json(userData))
@@ -97,6 +99,7 @@ router.post("/login", (req, res) => {
   });
 });
 
+// logout
 router.post("/logout", (req, res) => {
   if (req.session.loggedIn) {
     // cookie reset
