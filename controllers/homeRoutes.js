@@ -1,6 +1,6 @@
 const router = require("express").Router();
+const sequelize = "../config/connection";
 const { Post, User, Comment } = require("../models");
-const withAuth = require("../utils/auth");
 
 // all posts
 router.get("/", (req, res) => {
@@ -53,7 +53,7 @@ router.get("/post/:id", (req, res) => {
   })
     .then((postData) => {
       if (postData) {
-        res.status(404).json({ message: "Post not found with that id" });
+        res.status(404).json({ message: "Cannot find post with that id" });
         return;
       }
       const post = postData.get({ plain: true });

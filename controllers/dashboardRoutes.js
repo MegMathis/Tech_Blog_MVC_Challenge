@@ -3,7 +3,7 @@ const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
-// get route for main
+// get route for main - works with insomnia
 router.get("/", withAuth, (req, res) => {
   console.log(req.session);
   Post.findAll({
@@ -25,9 +25,10 @@ router.get("/", withAuth, (req, res) => {
       },
     ],
   })
-    .then((dbPostData) => {
+    .then((PostData) => {
       // serialize data
-      const posts = dbPostData.map((post) => post.get({ plain: true }));
+      const posts = PostData.map((post) => post.get({ plain: true }));
+      // do not let non users in
       res.render("dashboard", { posts, loggedIn: true });
     })
     .catch((err) => {
@@ -57,13 +58,13 @@ router.get("/edit/:id", withAuth, (req, res) => {
       },
     ],
   })
-    .then((dbPostData) => {
-      if (!dbPostData) {
-        res.status(404).json({ message: "No post found with this id" });
+    .then((PostData) => {
+      if (!PostData) {
+        res.status(404).json({ message: "Post not found with this id" });
         return;
       }
       //   serialize data
-      const post = dbPostData.get({ plain: true });
+      const post = PostData.get({ plain: true });
       res.render("edit-post", { post, loggedIn: true });
     })
     .catch((err) => {
