@@ -1,4 +1,4 @@
-# Tech_Blog_MVC_Challenge
+# Tech Blog Challenge
 
 [![license](https://img.shields.io/badge/License-MIT-ff69b4)](https://shields.io)
 
