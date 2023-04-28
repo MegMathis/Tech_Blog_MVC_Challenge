@@ -3,6 +3,7 @@ const sequelize = require("../config/connection");
 
 class Post extends Model {}
 
+// create fields/columns for Post model
 Post.init(
   {
     id: {
@@ -19,7 +20,7 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // foreign key here?
+    // foreign key?
     user_id: {
       type: DataTypes.INTEGER,
       references: {

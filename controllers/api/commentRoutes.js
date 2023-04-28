@@ -1,9 +1,8 @@
 const router = require("express").Router();
-const sequelize = require("../../config/connection");
 const { Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
-// get comments
+// GET ALL comments.... root
 router.get("/", (req, res) => {
   Comment.findAll()
     .then((commentData) => res.json(commentData))
@@ -13,12 +12,13 @@ router.get("/", (req, res) => {
     });
 });
 
-// create comment - async not working
+// posting comment route
 router.post("/", withAuth, (req, res) => {
   Comment.create({
     comment_text: req.body.comment_text,
+    // id from session
     user_id: req.session.user_id,
-    post_id: req.session.post_id,
+    post_id: req.body.post_id,
   })
     .then((commentData) => res.json(commentData))
     .catch((err) => {
@@ -27,7 +27,7 @@ router.post("/", withAuth, (req, res) => {
     });
 });
 
-// delete one comment
+// Delete comment
 router.delete("/:id", withAuth, (req, res) => {
   Comment.destroy({
     where: {
@@ -36,7 +36,7 @@ router.delete("/:id", withAuth, (req, res) => {
   })
     .then((commentData) => {
       if (!commentData) {
-        res.status(404).json({ message: "Comment not found with that id" });
+        res.status(404).json({ message: "Comment not found" });
         return;
       }
       res.json(commentData);

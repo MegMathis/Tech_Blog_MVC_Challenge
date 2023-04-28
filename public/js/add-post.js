@@ -1,4 +1,4 @@
-async function addFormHandler(event) {
+async function newFormHandler(event) {
   event.preventDefault();
 
   const title = document.querySelector('input[name="post-title"]').value;
@@ -6,7 +6,9 @@ async function addFormHandler(event) {
     'input[name="post-content"]'
   ).value;
 
-  const response = await fetch("/api/posts", {
+
+  // send a post request
+  const response = await fetch(`/api/posts`, {
     method: "POST",
     body: JSON.stringify({
       title,
@@ -26,4 +28,4 @@ async function addFormHandler(event) {
 
 document
   .querySelector(".new-post-form")
-  .addEventListener("submit", addFormHandler);
+  .addEventListener("submit", newFormHandler);

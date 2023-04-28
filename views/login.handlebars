@@ -1,6 +1,7 @@
+{{!-- login form with email and password fields --}}
 <form class="login-form">
   <div>
-    <h1 class="existing-user">Existing User</h1>
+    <h1 class="existing-user">Existing User Please Log In Here</h1>
   </div>
   <div class="email-exisiting-user">
     <label for="email-login">Email</label>
@@ -11,29 +12,31 @@
     <input type="password" id="password-login" />
   </div>
   <div class="existing-btn">
-    <button type="submit">Login</button>
+    <button type="submit">Log In</button>
   </div>
 </form>
 
+{{!-- signup form with user, email and password fields --}}
 <form class="signup-form">
   <div>
     <h1 class="new-user">New Users Please Sign Up</h1>
   </div>
   <div class="username-new-user">
-    <label for="username-signup">Username</label>
+    <label for="username-signup">username:</label>
     <input type="text" id="username-signup" />
   </div>
   <div class="email-new-user">
-    <label for="email-signup">Email</label>
+    <label for="email-signup">email:</label>
     <input type="text" id="email-signup" />
   </div>
   <div class="password-new-user">
-    <label for="password-signup">Password</label>
+    <label for="password-signup">password:</label>
     <input type="password" id="password-signup" />
   </div>
   <div class="new-btn">
-    <button type="submit">Sign Up</button>
+    <button type="submit">signup</button>
   </div>
 </form>
 
+{{!-- absolute path, not relative --}}
 <script src="/js/login.js"></script>

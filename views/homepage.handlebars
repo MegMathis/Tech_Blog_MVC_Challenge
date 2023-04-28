@@ -1,7 +1,9 @@
-<ol class="post-list">
+<ul class="post-list">
+    {{!-- any HTML between #each repeated for every item in posts --}}
     {{#each posts as |post|}}
   <li>
-{{post-info post}}
+    {{!-- indicates that the post-info template should be included --}}
+{{>post-info post}}
   </li>
   {{/each}}
-</ol>
+</ul>

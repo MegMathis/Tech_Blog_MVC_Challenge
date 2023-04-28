@@ -1,11 +1,9 @@
 const router = require("express").Router();
-const sequelize = require("../../config/connection");
 const { User, Post, Comment } = require("../../models");
 
-// Get all the users
+// GET ALL users
 router.get("/", (req, res) => {
   User.findAll({
-    // do not need password
     attributes: { exclude: ["password"] },
   })
     .then((userData) => res.json(userData))
@@ -15,8 +13,9 @@ router.get("/", (req, res) => {
     });
 });
 
-// Get single user - :id
+// GET one user
 router.get("/:id", (req, res) => {
+  // returns single object of data
   User.findOne({
     attributes: { exclude: ["password"] },
     where: {
@@ -24,10 +23,12 @@ router.get("/:id", (req, res) => {
     },
     include: [
       {
+        //   getting user posts
         model: Post,
         attributes: ["id", "title", "post_content", "created_at"],
       },
       {
+        //   comments included
         model: Comment,
         attributes: ["id", "comment_text", "created_at"],
         include: {
@@ -39,7 +40,7 @@ router.get("/:id", (req, res) => {
   })
     .then((userData) => {
       if (!userData) {
-        res.status(404).json({ message: "User not found with that id" });
+        res.status(404).json({ message: "User not found" });
         return;
       }
       res.json(userData);
@@ -50,7 +51,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// Post to the user info
+// make user
 router.post("/", (req, res) => {
   User.create({
     username: req.body.username,
@@ -62,6 +63,7 @@ router.post("/", (req, res) => {
         req.session.user_id = userData.id;
         req.session.username = userData.username;
         req.session.loggedIn = true;
+
         res.json(userData);
       });
     })
@@ -71,7 +73,7 @@ router.post("/", (req, res) => {
     });
 });
 
-// posting email login and password
+
 router.post("/login", (req, res) => {
   User.findOne({
     where: {
@@ -86,23 +88,23 @@ router.post("/login", (req, res) => {
     const validPassword = userData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res.status(400).json({ message: "Password incorrect" });
+      res.status(400).json({ message: "Wrong password" });
       return;
     }
+
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.username = userData.username;
       req.session.loggedIn = true;
 
-      res.json({ user: userData, message: "You are logged in" });
+      res.json({ user: userData, message: "You are now logged in" });
     });
   });
 });
 
-// logout
 router.post("/logout", (req, res) => {
   if (req.session.loggedIn) {
-    // cookie reset
+    // reset cookie
     req.session.destroy(() => {
       res.status(204).end();
     });
@@ -111,7 +113,7 @@ router.post("/logout", (req, res) => {
   }
 });
 
-// user update
+// update an user
 router.put("/:id", (req, res) => {
   User.update(req.body, {
     individualHooks: true,
@@ -121,7 +123,7 @@ router.put("/:id", (req, res) => {
   })
     .then((userData) => {
       if (!userData) {
-        res.status(404).json({ message: "User not found wit this id" });
+        res.status(404).json({ message: "User not found" });
         return;
       }
       res.json(userData);
@@ -132,7 +134,7 @@ router.put("/:id", (req, res) => {
     });
 });
 
-// Get rid of a user
+// Remove a user
 router.delete("/:id", (req, res) => {
   User.destroy({
     where: {
@@ -141,7 +143,7 @@ router.delete("/:id", (req, res) => {
   })
     .then((userData) => {
       if (!userData) {
-        res.status(404).json({ message: "User not found with this id" });
+        res.status(404).json({ message: "User not found" });
         return;
       }
       res.json(userData);

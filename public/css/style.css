@@ -75,3 +75,30 @@ button {
 .new-btn {
   text-align: center;
 }
+
+section {
+  text-align: center;
+}
+
+ol {
+  text-align: center;
+  list-style: none;
+  font-size: x-large;
+}
+
+article {
+  text-align: center;
+}
+
+.comments {
+  padding: 35px;
+}
+
+.comment-form {
+  text-align: center;
+  padding: 25px;
+}
+
+ul {
+  list-style: none;
+}

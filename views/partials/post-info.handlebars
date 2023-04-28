@@ -3,9 +3,10 @@
         <h3>{{title}}</h3>
         <span>{{post_content}}</span>
       </div>
-      <div class="this">
-        Posted by {{user.username}} on
+      <div class="meta">
+        Post By: {{user.username}} on
         {{format_date createdAt}}
-        <a href="/post/{{id}}">{{comments.length}}</a>
+        |
+        <a href="/post/{{id}}">{{comments.length}} Comments</a>
       </div>
     </article>

@@ -3,9 +3,12 @@ const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
-// get route for main
+// Home Page
 router.get("/", withAuth, (req, res) => {
   console.log(req.session);
+  console.log(
+    "====================================================================="
+  );
   Post.findAll({
     where: {
       user_id: req.session.user_id,
@@ -25,10 +28,8 @@ router.get("/", withAuth, (req, res) => {
       },
     ],
   })
-    .then((PostData) => {
-      // serialize data
-      const posts = PostData.map((post) => post.get({ plain: true }));
-      // do not let non users in
+    .then((postData) => {
+      const posts = postData.map((post) => post.get({ plain: true }));
       res.render("dashboard", { posts, loggedIn: true });
     })
     .catch((err) => {
@@ -37,7 +38,6 @@ router.get("/", withAuth, (req, res) => {
     });
 });
 
-// get single post
 router.get("/edit/:id", withAuth, (req, res) => {
   Post.findOne({
     where: {
@@ -58,13 +58,13 @@ router.get("/edit/:id", withAuth, (req, res) => {
       },
     ],
   })
-    .then((PostData) => {
-      if (!PostData) {
-        res.status(404).json({ message: "Post not found with this id" });
+    .then((postData) => {
+      if (!postData) {
+        res.status(404).json({ message: "No post found with this id" });
         return;
       }
-      //   serialize data
-      const post = PostData.get({ plain: true });
+      const post = postData.get({ plain: true });
+
       res.render("edit-post", { post, loggedIn: true });
     })
     .catch((err) => {

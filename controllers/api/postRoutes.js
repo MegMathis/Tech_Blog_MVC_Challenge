@@ -1,12 +1,16 @@
 const router = require("express").Router();
-const sequelize = require("../../config/connection");
+// const sequelize = require("../../config/connection"); - I don't think I need this here
 const { Post, User, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
-// get all the posts
+// GET ALL users
 router.get("/", (req, res) => {
+  // seperates things in terminal - super helpful
+  console.log(
+    "========================================================================="
+  );
   Post.findAll({
-    // table associations
+    // use table associations and join
     include: [
       {
         model: Comment,
@@ -29,7 +33,7 @@ router.get("/", (req, res) => {
     });
 });
 
-// get one post
+// get post by the id
 router.get("/:id", (req, res) => {
   Post.findOne({
     where: {
@@ -53,7 +57,7 @@ router.get("/:id", (req, res) => {
   })
     .then((postData) => {
       if (!postData) {
-        res.status(404).json({ message: "post not found with this id" });
+        res.status(404).json({ message: "Post not found" });
         return;
       }
       res.json(postData);
@@ -64,21 +68,21 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// create a user post
+// creates the blog post
 router.post("/", withAuth, (req, res) => {
   Post.create({
     title: req.body.title,
     post_content: req.body.post_content,
     user_id: req.session.user_id,
   })
-    .then((PostData) => res.json(PostData))
+    .then((postData) => res.json(postData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
-// edit post
+// change / updating a post
 router.put("/:id", withAuth, (req, res) => {
   Post.update(
     {
@@ -92,7 +96,7 @@ router.put("/:id", withAuth, (req, res) => {
   )
     .then((postData) => {
       if (!postData) {
-        res.status(404).json({ message: "Post not found with this id" });
+        res.status(404).json({ message: "Post not found" });
         return;
       }
       res.json(postData);
@@ -103,8 +107,8 @@ router.put("/:id", withAuth, (req, res) => {
     });
 });
 
-// get rid of a post
 router.delete("/:id", withAuth, (req, res) => {
+  console.log("id", req.params.id);
   Post.destroy({
     where: {
       id: req.params.id,
@@ -112,7 +116,7 @@ router.delete("/:id", withAuth, (req, res) => {
   })
     .then((postData) => {
       if (!postData) {
-        res.status(404).json({ message: "Post not found with this id" });
+        res.status(404).json({ message: "Post not found" });
         return;
       }
       res.json(postData);
