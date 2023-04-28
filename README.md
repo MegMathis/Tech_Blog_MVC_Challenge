@@ -33,9 +33,19 @@ MIT
 
 Visit heroku site:
 
+https://tech-blog-by-meg.herokuapp.com/
+
 ## ScreenShots
 
-n/a
+![Screenshot.](./public/images/dashboard.png)
+
+![Screenshot.](./public/images/signin_signup.png)
+
+![Screenshot.](./public/images/user_dashboard.png)
+
+![Screenshot.](./public/images/comments.png)
+
+![Screenshot.](./public/images/home.png)
 
 ## Video
 
@@ -43,11 +53,13 @@ n/a
 
 ## Links to Deployment
 
+https://tech-blog-by-meg.herokuapp.com/
+
 ## Credits
 
 Ask BCS
 
-Tutoring with Mazin
+Tutoring with Mazin and John
 
 Lesson 14 mini project
 
@@ -60,6 +72,10 @@ https://sequelize.org/docs/v7/other-topics/other-data-types/
 https://www.youtube.com/watch?v=hKYjSgyCd60
 
 https://handlebarsjs.com/guide/partials.html
+
+https://github.com/jdtdesigns/basic_mvc_auth_example
+
+https://github.com/jdtdesigns/starwars_project2_example/tree/starwars-auth-example
 
 ## Contribution
 
