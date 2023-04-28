@@ -59,3 +59,19 @@ button {
   font-size: 30px;
   color: white;
 }
+
+.username-new-user {
+  text-align: center;
+}
+
+.email-new-user {
+  text-align: center;
+}
+
+.password-new-user {
+  text-align: center;
+}
+
+.new-btn {
+  text-align: center;
+}
