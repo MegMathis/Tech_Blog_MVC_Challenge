@@ -30,3 +30,32 @@ header {
 .signup-form {
   margin-top: 5em;
 }
+
+.existing-user {
+  text-align: center;
+  font-size: 30px;
+  color: white;
+}
+
+.email-exisiting-user {
+  text-align: center;
+}
+
+.password-existing {
+  text-align: center;
+}
+
+.existing-btn {
+  text-align: center;
+}
+
+button {
+  background-color: black;
+  color: white;
+}
+
+.new-user {
+  text-align: center;
+  font-size: 30px;
+  color: white;
+}
